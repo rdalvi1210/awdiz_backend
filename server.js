@@ -1,5 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
+import mongoose from "mongoose";
+import mainRouter from "./routes/index.js";
 
 dotenv.config();
 
@@ -102,6 +104,17 @@ app.put("/edituser/:id", (req, res) => {
     users,
   });
 });
+
+app.use("/api/v1", mainRouter);
+
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then(() => {
+    console.log("Hello Ramchandra Dalvi, Successfully Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.log("MongoDB connection error:", err);
+  });
 
 app.listen(3000, () => {
   console.log("Server is running on http://localhost:3000");
