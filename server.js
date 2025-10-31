@@ -110,12 +110,12 @@ app.use("/api/v1", mainRouter);
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {
-    console.log("Hello Ramchandra Dalvi, Successfully Connected to MongoDB");
+    console.log("Hello Rushikesh Arote, Server Connected to MongoDB");
   })
   .catch((err) => {
     console.log("MongoDB connection error:", err);
   });
 
 app.listen(3000, () => {
-  console.log("Server is running on http://localhost:3000");
+  console.log("Server is running on http://localhost:8000");
 });
