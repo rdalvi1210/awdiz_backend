@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
@@ -7,8 +8,14 @@ import mainRouter from "./routes/index.js";
 dotenv.config();
 
 const app = express();
+
+const corsOptions = {
+  origin: "http://localhost:5173", // Replace with your actual frontend origin
+  credentials: true, // Crucial for allowing cookies
+};
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
+app.use(cookieParser());
 
 let users = [
   {
@@ -112,12 +119,12 @@ app.use("/api/v1", mainRouter);
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {
-    console.log("Hello Rushikesh Arote, Server Connected to MongoDB");
+    console.log("Hello Ramchandra Dalvi, Server Connected to MongoDB");
   })
   .catch((err) => {
     console.log("MongoDB connection error:", err);
   });
 
 app.listen(3000, () => {
-  console.log("Server is running on http://localhost:8000");
+  console.log("Server is running on http://localhost:3000");
 });

@@ -1,8 +1,13 @@
 import { Router } from "express";
-import { getProducts } from "../controllers/products.controller.js";
+import {
+  addProduct,
+  getAllProducts,
+} from "../controllers/products.controller.js";
+import { verifyToken } from "../middleware/verifytoken.middleware.js";
 
 const productsRouter = Router();
 
-productsRouter.get("/getproducts", getProducts);
+productsRouter.post("/addproducts", verifyToken, addProduct);
+productsRouter.get("/getproducts", verifyToken, getAllProducts);
 
 export default productsRouter;

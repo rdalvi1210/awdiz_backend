@@ -1,0 +1,56 @@
+import mongoose, { Schema } from "mongoose";
+
+const productSchema = new Schema(
+  {
+    // Basic details
+    title: {
+      type: String,
+      required: [true, "Product title is required"],
+      trim: true,
+    },
+
+    category: {
+      type: String,
+      required: [true, "Category is required"],
+      trim: true,
+    },
+
+    brand: {
+      type: String,
+      required: [true, "Brand is required"],
+      trim: true,
+    },
+
+    imageUrl: {
+      type: String,
+      required: [true, "Product image URL is required"],
+      trim: true,
+    },
+
+    // Optional but useful fields:
+    description: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+
+    price: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
+    // Track which seller added it (optional)
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Seller",
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const Product = mongoose.model("products", productSchema);
+
+export default Product;
