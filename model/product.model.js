@@ -45,6 +45,7 @@ const productSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Seller",
     },
+    isDeleted: { type: Boolean, default: false },
   },
   {
     timestamps: true,

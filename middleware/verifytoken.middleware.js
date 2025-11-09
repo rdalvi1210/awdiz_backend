@@ -2,6 +2,15 @@ import jwt from "jsonwebtoken";
 
 export const verifyToken = (req, res, next) => {
   try {
+    const openRoutes = [
+      "/api/v1/auth/login",
+      "/api/v1/auth/register",
+      "/api/v1/products/get-products",
+    ];
+
+    if (openRoutes.includes(req.originalUrl)) {
+      return next();
+    }
     const token = req.cookies?.token;
 
     if (!token) {

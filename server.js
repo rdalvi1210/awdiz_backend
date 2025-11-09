@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
+import { verifyToken } from "./middleware/verifytoken.middleware.js";
 import mainRouter from "./routes/index.js";
 
 dotenv.config();
@@ -114,7 +115,7 @@ app.put("/edituser/:id", (req, res) => {
   });
 });
 
-app.use("/api/v1", mainRouter);
+app.use("/api/v1", verifyToken, mainRouter);
 
 mongoose
   .connect(process.env.MONGO_URL)
