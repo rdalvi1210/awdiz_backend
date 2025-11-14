@@ -7,12 +7,8 @@ import {
 
 const CartRouter = Router();
 
-// Add product to cart
 CartRouter.post("/add", addToCart);
-
-// Get user cart
 CartRouter.get("/getcart", getUserCart);
-// Remove product from cart
 CartRouter.post("/remove", removeFromCart);
 
 export default CartRouter;

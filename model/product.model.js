@@ -27,7 +27,6 @@ const productSchema = new Schema(
       trim: true,
     },
 
-    // Optional but useful fields:
     description: {
       type: String,
       trim: true,
@@ -36,16 +35,27 @@ const productSchema = new Schema(
 
     price: {
       type: Number,
-      default: 0,
+      required: true,
       min: 0,
     },
 
-    // Track which seller added it (optional)
+    // 🔥 NEW FIELD for cart quantity logic
+    stock: {
+      type: Number,
+      required: true,
+      min: 0,
+      default: 0, // optional: set 0 means out of stock
+    },
+
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Seller",
     },
-    isDeleted: { type: Boolean, default: false },
+
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
