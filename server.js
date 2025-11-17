@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import { verifyToken } from "./middleware/verifytoken.middleware.js";
+import Product from "./model/product.model.js";
 import mainRouter from "./routes/index.js";
 
 dotenv.config();
@@ -116,6 +117,71 @@ app.put("/edituser/:id", (req, res) => {
 });
 
 app.use("/api/v1", verifyToken, mainRouter);
+
+app.get("/api/v1/test/operators", async (req, res) => {
+  try {
+    // Comparison Query Operators
+
+    // const products = await Product.find({ brand: { $eq: "Nike" } });
+
+    // const products = await Product.find({ category: { $ne: "Shoes" } });
+
+    // const products = await Product.find({ price: { $gt: 500 } });
+
+    // const products = await Product.find({ price: { $gte: 1000 } });
+
+    // const products = await Product.find({ price: { $lt: 300 } });
+
+    // const products = await Product.find({ price: { $lte: 500 } });
+
+    // const products = await Product.find({
+    //   category: { $in: ["Shoes", "Clothes"] },
+    // });
+
+    // const products = await Product.find({
+    //   brand: { $nin: ["Nike", "Puma"] },
+    // });
+
+    // Logical Operators
+
+    // const products = await Product.find({
+    //   $and: [
+    //     { brand: "Nike" },
+    //     { price: { $gt: 500 } }
+    //   ]
+    // });
+
+    // const products = await Product.find({
+    //   $or: [
+    //     { category: "Shoes" },
+    //     { brand: "Adidas" }
+    //   ]
+    // });
+
+    // const products = await Product.find({
+    //   price: { $not: { $gt: 1000 } },
+    // });
+
+    // const products = await Product.find({
+    //   $nor: [{ brand: "Nike" }, { category: "Electronics" }],
+    // });
+
+    // const products = await Product.find({
+    //   stock: { $exists: true },
+    // });
+
+    const products = await Product.find({
+      title: { $type: "string" },
+    });
+
+    res.json({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 mongoose
   .connect(process.env.MONGO_URL)

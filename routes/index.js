@@ -1,5 +1,6 @@
 import { Router } from "express";
 import authRouter from "./auth.route.js";
+import blogRouter from "./blog.route.js";
 import CartRouter from "./cart.route.js";
 import ordersRouter from "./order.route.js";
 import productsRouter from "./products.route.js";
@@ -12,5 +13,6 @@ mainRouter.use("/products", productsRouter);
 mainRouter.use("/carts", CartRouter);
 mainRouter.use("/seller", sellerRouter);
 mainRouter.use("/order", ordersRouter);
+mainRouter.use("/blogs", blogRouter);
 
 export default mainRouter;
