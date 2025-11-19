@@ -183,6 +183,30 @@ app.get("/api/v1/test/operators", async (req, res) => {
   }
 });
 
+app.get("/api/v1/aggregation-pipeline", async (req, res) => {
+  try {
+    const products = await Product.aggregate([
+      // { $match: { price: { $eq: 999 } } },
+      // { $match: { price: { $ne: 999 } } },
+      { $match: { price: { $nin: [0, 299] } } },
+
+      {
+        $group: {
+          _id: "$brand",
+          totalStock: { $sum: "$stock" },
+          highestPrice: { $max: "$price" },
+          lowestPrice: { $min: "$price" },
+          totalProductsPrice: { $sum: { $multiply: ["$stock", "$price"] } },
+          productCount: { $sum: 1 },
+        },
+      },
+    ]);
+    res.status(201).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {
