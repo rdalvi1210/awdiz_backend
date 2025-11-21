@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
-import { verifyToken } from "./middleware/verifytoken.middleware.js";
+import Order from "./model/order.model.js";
 import Product from "./model/product.model.js";
 import mainRouter from "./routes/index.js";
 
@@ -116,7 +116,7 @@ app.put("/edituser/:id", (req, res) => {
   });
 });
 
-app.use("/api/v1", verifyToken, mainRouter);
+app.use("/api/v1", mainRouter);
 
 app.get("/api/v1/test/operators", async (req, res) => {
   try {
@@ -198,6 +198,25 @@ app.get("/api/v1/aggregation-pipeline", async (req, res) => {
           lowestPrice: { $min: "$price" },
           totalProductsPrice: { $sum: { $multiply: ["$stock", "$price"] } },
           productCount: { $sum: 1 },
+        },
+      },
+    ]);
+    res.status(201).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/api/v1/test/unwind-project", async (req, res) => {
+  try {
+    const products = await Order.aggregate([
+      { $unwind: "$products" },
+      {
+        $project: {
+          _id: 1,
+          user: 1,
+          productId: "$products.product",
+          quantity: "$products.quantity",
         },
       },
     ]);
